@@ -152,7 +152,7 @@ class App extends Component {
                   aria-expanded="false"
                   aria-controls="collapseTwo"
                 >
-                  Table with markers list
+                  Markers
                 </button>
               </h2>
             </div>
