@@ -1,20 +1,35 @@
 import React from "react";
 import "./List.css";
 
-const List = ({ removeMarker, features }) => {
+const List = ({ removeMarker, geojson }) => {
+  const items = geojson.features.map((feature) => (
+    <tr key={feature.id}>
+      <td className="h3">{feature.geometry.coordinates[0].toFixed(2)}&#176;</td>
+      <td className="h3">{feature.geometry.coordinates[1].toFixed(2)}&#176;</td>
+      <td>
+        <button
+          className="btn btn-danger"
+          id={feature.id}
+          onClick={() => removeMarker(feature.id)}
+        >
+          REMOVE
+        </button>
+      </td>
+    </tr>
+  ));
+
   return (
     <div className="list-wrapper">
-      <ul>
-        {features.map(feature => (
-          <li key={feature.id}>
-            Longitude: {feature.geometry.coordinates[0].toFixed(2)}&#176;
-            Latitude: {feature.geometry.coordinates[1].toFixed(2)}&#176;
-            <button id={feature.id} onClick={() => removeMarker(feature.id)}>
-              REMOVE
-            </button>
-          </li>
-        ))}
-      </ul>
+      <table className="table table-striped table-hover table-sm">
+        <thead className="thead-dark">
+          <tr>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>{items}</tbody>
+      </table>
     </div>
   );
 };

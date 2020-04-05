@@ -13,26 +13,26 @@ class App extends Component {
     number: 0,
     geojson: {
       type: "FeatureCollection",
-      features: []
-    }
+      features: [],
+    },
   };
   globalMap;
-  handleRemoveMarker = e => {
+  handleRemoveMarker = (e) => {
     let features = this.state.geojson.features;
-    const newFeatures = features.filter(features => features.id !== e);
+    const newFeatures = features.filter((features) => features.id !== e);
     this.setState({
       geojson: {
         type: "FeatureCollection",
-        features: newFeatures
-      }
+        features: newFeatures,
+      },
     });
   };
   componentDidUpdate() {
     const markers = document.querySelectorAll(".marker");
 
-    markers.forEach(div => div.remove());
+    markers.forEach((div) => div.remove());
 
-    this.state.geojson.features.forEach(marker => {
+    this.state.geojson.features.forEach((marker) => {
       let el = document.createElement("div");
       el.className = "marker";
 
@@ -45,7 +45,7 @@ class App extends Component {
         const markerId = marker.id;
         let newFeatures = [];
 
-        this.state.geojson.features.forEach(feature => {
+        this.state.geojson.features.forEach((feature) => {
           if (feature.id === markerId) {
             feature.geometry.coordinates = [lngLat.lng, lngLat.lat];
             newFeatures.push(feature);
@@ -57,8 +57,8 @@ class App extends Component {
         this.setState({
           geojson: {
             type: "FeatureCollection",
-            features: newFeatures
-          }
+            features: newFeatures,
+          },
         });
       };
       tag.on("dragend", onDragEnd);
@@ -70,7 +70,7 @@ class App extends Component {
       container: this.mapContainer,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [this.state.lng, this.state.lat],
-      zoom: this.state.zoom
+      zoom: this.state.zoom,
     });
     this.globalMap = map;
 
@@ -78,10 +78,10 @@ class App extends Component {
       this.setState({
         lng: map.getCenter().lng.toFixed(4),
         lat: map.getCenter().lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2)
+        zoom: map.getZoom().toFixed(2),
       });
     });
-    map.on("click", e => {
+    map.on("click", (e) => {
       const lng = e.lngLat.lng;
       const lat = e.lngLat.lat;
       const coordinates = [lng, lat];
@@ -91,40 +91,87 @@ class App extends Component {
         ...this.state.geojson.features,
         {
           id: number,
-          type: "Feature",
           geometry: {
             type: "Point",
-            coordinates
+            coordinates,
           },
-          properties: {
-            title: "new",
-            description: "new"
-          }
-        }
+        },
       ];
 
       this.setState({
         number,
         geojson: {
           type: "FeatureCollection",
-          features: newFeaturesArray
-        }
+          features: newFeaturesArray,
+        },
       });
     });
   }
   render() {
     return (
-      <div>
-        {/* <div> */}
-        {/* <div className="sidebarStyle">
-            Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom:{" "}
-            {this.state.zoom}
-          </div> */}
-        {/* </div> */}
-        <div ref={el => (this.mapContainer = el)} className="mapContainer" />
-        {/* <pre id="info"></pre> */}
-        <List removeMarker={this.handleRemoveMarker} {...this.state.geojson} />
-        )}
+      <div className="container">
+        <div className="accordion" id="accordionExample">
+          <div className="card">
+            <div className="card-header" id="headingOne">
+              <h2 className="mb-0">
+                <button
+                  className="btn btn-link"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  Map
+                </button>
+              </h2>
+            </div>
+
+            <div
+              id="collapseOne"
+              className="collapse show"
+              aria-labelledby="headingOne"
+              data-parent="#accordionExample"
+            >
+              <div className="card-body">
+                <div
+                  ref={(el) => (this.mapContainer = el)}
+                  className="mb3 mapContainer"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header" id="headingTwo">
+              <h2 className="mb-0">
+                <button
+                  className="btn btn-link collapsed"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  Table with markers list
+                </button>
+              </h2>
+            </div>
+            <div
+              id="collapseTwo"
+              className="collapse"
+              aria-labelledby="headingTwo"
+              data-parent="#accordionExample"
+            >
+              <div className="card-body">
+                <List
+                  removeMarker={this.handleRemoveMarker}
+                  geojson={this.state.geojson}
+                  className="mb3"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,32 +1,7 @@
 .mapContainer {
-  position: absolute;
-  /* top: 0; */
-  /* right: 0; */
-  /* left: 0; */
-  /* bottom: 0; */
-  top: 0;
-  left: 0;
-  width: 50vw;
-  height: 50vh;
-}
-
-/* 
-.mapboxgl-control-container {
-  position: absolute;
-  bottom: 10px;
-  right: 5px;
-} */
-.sidebarStyle {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 12px;
-  background-color: #404040;
-  color: #ffffff;
-  z-index: 1;
-  padding: 6px;
-  font-weight: bold;
+  width: 70vw;
+  height: 70vh;
+  margin: auto;
 }
 
 .marker {
@@ -38,11 +13,16 @@
   cursor: pointer;
 }
 
-.mapboxgl-popup {
-  max-width: 200px;
-}
-
 .mapboxgl-popup-content {
   text-align: center;
   font-family: "Open Sans", sans-serif;
+}
+
+.table .thead-dark th {
+  text-align: center;
+}
+
+.table td {
+  vertical-align: middle;
+  text-align: center;
 }
